@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('title', 191);
             $table->text('slug')->unique();
             $table->text('body');
-            $table->integer('active')->default(0);
+            $table->boolean('active')->default(0);
             $table->timestamps();
         });
     }
