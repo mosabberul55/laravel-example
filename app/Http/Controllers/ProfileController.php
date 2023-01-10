@@ -23,46 +23,29 @@ class ProfileController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
      * Store a newly created resource in storage.
      *
      * @param  \App\Http\Requests\StoreprofileRequest  $request
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function store(StoreprofileRequest $request)
     {
-        //
+        //store profile
+        $data = $request->validated();
+//        return $data;
+        $profile = Profile::create($data);
+        return response()->json(['profile' => $profile->load('user')], 201);
     }
 
     /**
      * Display the specified resource.
      *
      * @param  \App\Models\profile  $profile
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function show(profile $profile)
     {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\profile  $profile
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(profile $profile)
-    {
-        //
+        return response()->json($profile);
     }
 
     /**
@@ -70,11 +53,13 @@ class ProfileController extends Controller
      *
      * @param  \App\Http\Requests\UpdateprofileRequest  $request
      * @param  \App\Models\profile  $profile
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function update(UpdateprofileRequest $request, profile $profile)
     {
-        //
+        $data = $request->validated();
+        $profile->update($data);
+        return response()->json(['profile' => $profile], 200);
     }
 
     /**
@@ -85,6 +70,7 @@ class ProfileController extends Controller
      */
     public function destroy(profile $profile)
     {
-        //
+        $profile->delete();
+        return response()->noContent();
     }
 }
